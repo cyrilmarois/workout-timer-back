@@ -10,7 +10,7 @@ class TimerRepository extends BaseRepository
 {
     public function model()
     {
-        return 'App\\Models\\Timer';
+        return Timer::class;
     }
 
     public function applyParams(Request $request): BaseRepository

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Set;
 use Illuminate\Http\Request;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -9,7 +10,7 @@ class SetRepository extends BaseRepository
 {
     public function model()
     {
-        return 'App\Models\Set';
+        return Set::class;
     }
 
     public function applyParams(Request $request)

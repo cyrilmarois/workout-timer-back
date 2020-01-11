@@ -16,6 +16,6 @@ class Set extends Model
 
     public function timer()
     {
-        return $this->belongsToMany('App\Models\Timer', 'timer_set', 'set_id', 'timer_id');
+        return $this->belongsToMany(Timer::class, 'timer_set', 'set_id', 'timer_id');
     }
 }
