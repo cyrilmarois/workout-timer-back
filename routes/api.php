@@ -16,3 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::prefix('timer')->group(function() {
+    Route::post('/', 'TimerController@store');
+    Route::get('/', 'TimerController@index');
+    Route::get('/{id}', 'TimerController@show');
+    Route::patch('/{id}', 'TimerController@update');
+    Route::delete('/{id}', 'TimerController@destroy');
+});
+
+Route::fallback('HodorController@hodor');
