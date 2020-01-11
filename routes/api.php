@@ -25,4 +25,12 @@ Route::prefix('timer')->group(function() {
     Route::delete('/{id}', 'TimerController@destroy');
 });
 
+Route::prefix('set')->group(function() {
+    Route::post('/', 'SetController@store');
+    Route::get('/', 'SetController@index');
+    Route::get('/{id}', 'SetController@show');
+    Route::patch('/{id}', 'SetController@update');
+    Route::delete('/{id}', 'SetController@destroy');
+});
+
 Route::fallback('HodorController@hodor');
