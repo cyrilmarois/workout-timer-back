@@ -17,7 +17,6 @@ class CreateTimerSetTable extends Migration
             $table->increments('id');
             $table->integer('timer_id')->unsigned();
             $table->integer('set_id')->unsigned();
-            $table->integer('status')->unsigned();
             $table->timestamps();
         });
     }
