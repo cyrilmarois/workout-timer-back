@@ -15,9 +15,8 @@ class SetRepository extends BaseRepository
 
     public function applyParams(Request $request)
     {
-        $fields = Arr::get($request->all(), 'fields') ?? [];
-        if (filled($fields)) {
-            $explodeFields = explode(',', $fields);
+        if (null !== $request->fields) {
+            $explodeFields = explode(',', $request->fields);
             if (in_array('timer', $explodeFields)) {
                 $this->with(['timer']);
             }

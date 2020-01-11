@@ -15,14 +15,18 @@ class TimerRepository extends BaseRepository
 
     public function applyParams(Request $request)
     {
-        $fields = Arr::get($request->all(), 'fields') ?? [];
-        if (filled($fields)) {
-            $explodeFields = explode(',', $fields);
+        if (null !== $request->fields) {
+            $explodeFields = explode(',', $request->fields);
             if (in_array('set', $explodeFields)) {
                 $this->with(['set']);
             }
         }
 
         return $this;
+    }
+
+    public function addSet(Request $request)
+    {
+
     }
 }
