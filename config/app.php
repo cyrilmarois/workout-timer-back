@@ -175,6 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Custom
+
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
+
     ],
 
     /*
@@ -226,6 +230,12 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        // Custom
+
     ],
+
+
+    // Custom
+    'api_version' => env('APP_API_VERSION', 1)
 
 ];
