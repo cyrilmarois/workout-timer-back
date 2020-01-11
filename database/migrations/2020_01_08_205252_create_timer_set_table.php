@@ -28,6 +28,6 @@ class CreateTimerSetTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('timet_set');
+        Schema::dropIfExists('timer_set');
     }
 }

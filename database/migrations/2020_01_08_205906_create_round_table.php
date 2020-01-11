@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCycleTable extends Migration
+class CreateRoundTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCycleTable extends Migration
      */
     public function up()
     {
-        Schema::create('cycle', function (Blueprint $table) {
+        Schema::create('round', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('duration')->unsigned();
             $table->integer('type_id')->unsigned();
@@ -29,6 +29,6 @@ class CreateCycleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cycle');
+        Schema::dropIfExists('round');
     }
 }

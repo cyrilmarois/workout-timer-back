@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCycleTypeFk extends Migration
+class AddRoundTypeFk extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddCycleTypeFk extends Migration
      */
     public function up()
     {
-        Schema::table('cycle', function (Blueprint $table) {
+        Schema::table('round', function (Blueprint $table) {
             $table->foreign('type_id', 'type_id_fdx')
             ->references('id')
             ->on('type')
@@ -35,6 +35,9 @@ class AddCycleTypeFk extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('round', function (Blueprint $table) {
+            $table->dropForeign('type_id_fdx');
+            $table->dropForeign('sound_id_fdx');
+        });
     }
 }
