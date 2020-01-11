@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::prefix('user')->group(function() {
+Route::middleware('auth:api')->prefix('user')->group(function() {
     Route::post('/', 'UserController@store');
     Route::get('/', 'UserController@index');
     Route::get('/{id}', 'UserController@show');
@@ -29,6 +29,7 @@ Route::prefix('timer')->group(function() {
     Route::patch('/{id}', 'TimerController@update');
     Route::delete('/{id}', 'TimerController@destroy');
     Route::patch('/{id}/set', 'TimerController@addSet');
+    Route::delete('/{id}/set', 'TimerController@removeSet');
 });
 
 Route::prefix('set')->group(function() {

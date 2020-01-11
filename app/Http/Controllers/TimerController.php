@@ -63,12 +63,12 @@ class TimerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory;
      */
-    public function show(Request $request, $id)
+    public function show($id, Request $request)
     {
         $data = $this->repository->applyParams($request)->find($id);
 
@@ -78,12 +78,12 @@ class TimerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory;
      */
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
         $data = $this->repository->find((int)$id)->fill($request->input());
 
@@ -101,6 +101,40 @@ class TimerController extends Controller
     {
         $data = $this->repository->find($id);
         $data->delete();
+
+        return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
+    }
+
+    /**
+     * Attach Set to Timer.
+     *
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory;
+     */
+    public function addSet($id, Request $request)
+    {
+        $timer = $this->repository->find($id);
+        $data = $this->repository->addSet($timer, $request);
+        $data = $data->with(['set'])->find($id);
+
+        return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
+    }
+
+    /**
+     * Remove Set to Timer.
+     *
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory;
+     */
+    public function RemoveSet($id, Request $request)
+    {
+        $timer = $this->repository->find($id);
+        $data = $this->repository->removeSet($timer, $request);
+        $data = $data->with(['set'])->find($id);
 
         return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
     }
