@@ -45,4 +45,12 @@ Route::prefix('type')->group(function() {
     Route::get('/{id}', 'TypeController@show');
 });
 
+Route::prefix('sound')->group(function() {
+    Route::post('/', 'SoundController@store');
+    Route::get('/', 'SoundController@index');
+    Route::get('/{id}', 'SoundController@show');
+    Route::patch('/{id}', 'SoundController@update');
+    Route::delete('/{id}', 'SoundController@destroy');
+});
+
 Route::fallback('HodorController');

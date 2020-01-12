@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Set extends JsonResource
+class Sound extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,9 @@ class Set extends JsonResource
     {
         return [
             'id' => $this->id,
-            'round' => $this->round,
-            'timer' => Timer::collection($this->whenLoaded('timer'))
+            'name' => $this->name,
+            'filename' => $this->filename,
+            'round' => Round::collection($this->whenLoaded('round'))
         ];
     }
 }

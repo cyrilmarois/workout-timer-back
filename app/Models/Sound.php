@@ -11,7 +11,8 @@ class Sound extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'filename'
+        'name',
+        'filename',
     ];
 
     protected $guarded = [];
