@@ -40,4 +40,9 @@ Route::prefix('set')->group(function() {
     Route::delete('/{id}', 'SetController@destroy');
 });
 
+Route::prefix('type')->group(function() {
+    Route::get('/', 'TypeController@index');
+    Route::get('/{id}', 'TypeController@show');
+});
+
 Route::fallback('HodorController');
