@@ -17,7 +17,6 @@ class CreateSoundTable extends Migration
             $table->increments('id');
             $table->string('name', 30);
             $table->string('filename', 255);
-            $table->binary('content');
             $table->timestamps();
         });
     }
