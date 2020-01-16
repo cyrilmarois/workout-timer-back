@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTimerSetFk extends Migration
+class AddCycleFk extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class AddTimerSetFk extends Migration
      */
     public function up()
     {
-        Schema::table('timer_set', function(Blueprint $table) {
-            $table->foreign('timer_id', 'timer_set_timer_id_fdx')
+        Schema::table('cycle', function (Blueprint $table) {
+            $table->foreign('type_id', 'cycle_type_id_fdx')
                 ->references('id')
-                ->on('timer')
+                ->on('type')
                 ->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
 
-            $table->foreign('set_id', 'timer_set_set_id_fdx')
+            $table->foreign('sound_id', 'cycle_sound_id_fdx')
                 ->references('id')
-                ->on('set')
+                ->on('sound')
                 ->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
         });
@@ -35,9 +35,9 @@ class AddTimerSetFk extends Migration
      */
     public function down()
     {
-        Schema::table('timer_set', function(Blueprint $table) {
-            $table->dropForeign('timer_set_timer_id_fdx');
-            $table->dropForeign('timer_set_set_id_fdx');
+        Schema::table('cycle', function (Blueprint $table) {
+            $table->dropForeign('cycle_type_id_fdx');
+            $table->dropForeign('cycle_sound_id_fdx');
         });
     }
 }

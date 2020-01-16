@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTimerSetFk extends Migration
+class AddRoundCycleFk extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class AddTimerSetFk extends Migration
      */
     public function up()
     {
-        Schema::table('timer_set', function(Blueprint $table) {
-            $table->foreign('timer_id', 'timer_set_timer_id_fdx')
+        Schema::table('round_cycle', function (Blueprint $table) {
+            $table->foreign('round_id', 'round_cycle_round_id_fdx')
                 ->references('id')
-                ->on('timer')
+                ->on('round')
                 ->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
 
-            $table->foreign('set_id', 'timer_set_set_id_fdx')
+            $table->foreign('cycle_id', 'round_cycle_cycle_id_fdx')
                 ->references('id')
-                ->on('set')
+                ->on('cycle')
                 ->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
         });
@@ -35,9 +35,9 @@ class AddTimerSetFk extends Migration
      */
     public function down()
     {
-        Schema::table('timer_set', function(Blueprint $table) {
-            $table->dropForeign('timer_set_timer_id_fdx');
-            $table->dropForeign('timer_set_set_id_fdx');
+        Schema::table('round_cycle', function (Blueprint $table) {
+            $table->dropForeign('round_cycle_round_id_fdx');
+            $table->dropForeign('round_cycle_cycle_id_fdx');
         });
     }
 }

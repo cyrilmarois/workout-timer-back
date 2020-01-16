@@ -15,9 +15,7 @@ class CreateRoundTable extends Migration
     {
         Schema::create('round', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('duration')->unsigned();
-            $table->integer('type_id')->unsigned();
-            $table->integer('sound_id')->unsigned();
+            $table->integer('total');
             $table->timestamps();
         });
     }
