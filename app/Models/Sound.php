@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +19,8 @@ class Sound extends Model
 
     protected $guarded = [];
 
-    public function round()
+    public function cycle()
     {
-        return $this->hasMany(Round::class, 'sound_id', 'id');
+        return $this->hasMany(Cycle::class, 'sound_id', 'id');
     }
 }

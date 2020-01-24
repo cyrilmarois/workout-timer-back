@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Set extends Model
 {
-    protected $table ='set';
+    protected $table = 'set';
 
     protected $primaryKey = 'id';
 
@@ -16,6 +18,11 @@ class Set extends Model
 
     public function timer()
     {
-        return $this->belongsToMany(Timer::class, 'timer_set', 'set_id', 'timer_id');
+        return $this->belongsToMany(
+            Timer::class,
+            'timer_set',
+            'set_id',
+            'timer_id'
+        );
     }
 }

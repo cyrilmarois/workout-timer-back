@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Type extends JsonResource
+class Cycle extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +18,9 @@ class Type extends JsonResource
     {
         return [
             'id' => $this->id,
-            'slug' => $this->slug,
-            'cycle' => Cycle::make($this->whenLoaded('cycle')),
+            'duration' => $this->duration,
+            'type' => Type::make($this->whenLoaded('type')),
+            'sound' => Sound::make($this->whenLoaded('sound')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

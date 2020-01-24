@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Sound as SoundResource;
-use App\Http\Resources\SoundCollection;
+// use App\Http\Resources\SoundCollection;
 use App\Models\Sound;
 use App\Repositories\SoundRepository;
 use Illuminate\Http\Request;
@@ -56,7 +59,8 @@ class SoundController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(SoundCollection::make($data), HttpResponse::HTTP_OK);
+        // return Response()->json(SoundCollection::make($data), HttpResponse::HTTP_OK);
+        return Response()->json(SoundResource::collection($data), HttpResponse::HTTP_OK);
     }
 
 

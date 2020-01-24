@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Type extends JsonResource
+class Round extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +18,8 @@ class Type extends JsonResource
     {
         return [
             'id' => $this->id,
-            'slug' => $this->slug,
-            'cycle' => Cycle::make($this->whenLoaded('cycle')),
+            'total' => $this->total,
+            'cycle' => Cycle::collection($this->whenLoaded('cycle')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

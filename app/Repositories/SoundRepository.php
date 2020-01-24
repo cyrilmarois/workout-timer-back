@@ -1,5 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
+
 namespace App\Repositories;
 
 use App\Models\Sound;
@@ -18,8 +21,8 @@ class SoundRepository extends BaseRepository
     {
         if (null !== $request->fields) {
             $explodeFields = explode(',', $request->fields);
-            if (in_array('round', $explodeFields)) {
-                $this->with(['round']);
+            if (in_array('cycle', $explodeFields)) {
+                $this->with(['cycle']);
             }
         }
 

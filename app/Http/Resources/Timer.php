@@ -1,5 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,7 +22,9 @@ class Timer extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'set' => Set::collection($this->whenLoaded('set'))
+            'set' => Set::collection($this->whenLoaded('set')),
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }

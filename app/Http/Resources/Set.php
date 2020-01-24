@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -17,7 +19,9 @@ class Set extends JsonResource
         return [
             'id' => $this->id,
             'round' => $this->round,
-            'timer' => Timer::collection($this->whenLoaded('timer'))
+            'timer' => Timer::collection($this->whenLoaded('timer')),
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }

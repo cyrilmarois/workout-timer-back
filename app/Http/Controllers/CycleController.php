@@ -5,19 +5,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Type as TypeResource;
-// use App\Http\Resources\TypeCollection;
-use App\Models\Type;
-use App\Repositories\TypeRepository;
+use App\Http\Resources\Cycle as CycleResource;
+// use App\Http\Resources\CycleCollection;
+use App\Models\Cycle;
+use App\Repositories\CycleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-class TypeController extends Controller
+class CycleController extends Controller
 {
 
     /**
-     * @var $repository TypeRepository
+     * @var $repository CycleRepository
      */
     protected $repository;
 
@@ -28,7 +28,7 @@ class TypeController extends Controller
      *
      * @return void
      */
-    public function __construct(TypeRepository $repository)
+    public function __construct(CycleRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -42,7 +42,10 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        // Not implemented
+        $data = Cycle::create($request->input());
+        $data = $data->with(['type', 'round'])->find($data->id);
+
+        return Response()->json(new CycleResource($data), HttpResponse::HTTP_CREATED);
     }
 
 
@@ -57,8 +60,8 @@ class TypeController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        // return Response()->json(TypeCollection::make($data), HttpResponse::HTTP_OK);
-        return Response()->json(TypeResource::collection($data), HttpResponse::HTTP_OK);
+        // return Response()->json(CycleCollection::make($data), HttpResponse::HTTP_OK);
+        return Response()->json(CycleResource::collection($data), HttpResponse::HTTP_OK);
     }
 
 
@@ -72,9 +75,11 @@ class TypeController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $request = new Request();
+        $request->input(['fields' => 'type,round']);
         $data = $this->repository->applyParams($request)->find($id);
 
-        return Response()->json(new TypeResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new CycleResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
@@ -87,9 +92,13 @@ class TypeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request->input());
         $data = $this->repository->find((int)$id)->fill($request->input());
+        $request = new Request();
+        $request->input(['fields' => 'type,round']);
+        $data = $this->repository->applyParams($request)->find($data->id);
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new CycleResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
@@ -104,6 +113,6 @@ class TypeController extends Controller
         $data = $this->repository->find($id);
         $data->delete();
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new CycleResource($data), HttpResponse::HTTP_OK);
     }
 }

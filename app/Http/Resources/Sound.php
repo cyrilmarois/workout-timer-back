@@ -1,5 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,7 +21,9 @@ class Sound extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'filename' => $this->filename,
-            'round' => Round::collection($this->whenLoaded('round'))
+            'cycle' => Cycle::make($this->whenLoaded('cycle')),
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }

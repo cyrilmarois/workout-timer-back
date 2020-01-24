@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Set as SetResource;
-use App\Http\Resources\SetCollection;
+// use App\Http\Resources\SetCollection;
 use App\Models\Set;
 use App\Repositories\SetRepository;
 use Illuminate\Http\Request;
@@ -56,7 +59,8 @@ class SetController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(SetCollection::make($data), HttpResponse::HTTP_OK);
+        // return Response()->json(SetCollection::make($data), HttpResponse::HTTP_OK);
+        return Response()->json(SetResource::collection($data), HttpResponse::HTTP_OK);
     }
 
 
