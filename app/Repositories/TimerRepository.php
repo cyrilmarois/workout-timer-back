@@ -20,8 +20,8 @@ class TimerRepository extends BaseRepository
     {
         if (null !== $request->fields) {
             $explodeFields = explode(',', $request->fields);
-            if (in_array('set', $explodeFields)) {
-                $this->with(['set']);
+            if (filled($explodeFields)) {
+                $this->with($explodeFields);
             }
         }
 

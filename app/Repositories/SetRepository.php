@@ -19,8 +19,8 @@ class SetRepository extends BaseRepository
     {
         if (null !== $request->fields) {
             $explodeFields = explode(',', $request->fields);
-            if (in_array('timer', $explodeFields)) {
-                $this->with(['timer']);
+            if (filled($explodeFields)) {
+                $this->with($explodeFields);
             }
         }
 

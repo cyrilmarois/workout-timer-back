@@ -21,9 +21,7 @@ class SoundRepository extends BaseRepository
     {
         if (null !== $request->fields) {
             $explodeFields = explode(',', $request->fields);
-            if (in_array('cycle', $explodeFields)) {
-                $this->with(['cycle']);
-            }
+            $this->with($explodeFields);
         }
 
         return $this;

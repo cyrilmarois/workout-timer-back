@@ -20,8 +20,8 @@ class TypeRepository extends BaseRepository
     {
         if (null !== $request->fields) {
             $explodeFields = explode(',', $request->fields);
-            if (in_array('cycle', $explodeFields)) {
-                $this->with(['cycle']);
+            if (filled($explodeFields)) {
+                $this->with($explodeFields);
             }
         }
 
