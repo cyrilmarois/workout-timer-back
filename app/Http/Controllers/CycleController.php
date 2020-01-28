@@ -90,11 +90,7 @@ class CycleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->input());
-        $data = $this->repository->find((int)$id)->fill($request->input());
-        $request = new Request();
-        $request->input(['fields' => 'type,round']);
-        $data = $this->repository->applyParams($request)->find($data->id);
+        $data = $this->repository->update($request->input(), $id);
 
         return Response()->json(new CycleResource($data), HttpResponse::HTTP_OK);
     }
