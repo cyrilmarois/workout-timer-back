@@ -14,7 +14,6 @@ class Round extends Model
 
     protected $fillable = [
         'total',
-        'order_id'
     ];
 
     public function cycle()

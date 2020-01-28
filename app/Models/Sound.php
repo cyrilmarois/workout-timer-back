@@ -21,6 +21,6 @@ class Sound extends Model
 
     public function cycle()
     {
-        return $this->hasMany(Cycle::class, 'sound_id', 'id');
+        return $this->hasMany(Cycle::class, 'id', 'cycle_id');
     }
 }
