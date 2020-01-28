@@ -18,7 +18,7 @@ class Set extends JsonResource
     {
         return [
             'id' => $this->id,
-            'round' => $this->round,
+            'repetition' => $this->repetition,
             'timer' => Timer::collection($this->whenLoaded('timer')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
