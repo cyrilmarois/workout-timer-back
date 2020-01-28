@@ -13,7 +13,7 @@ class Set extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'round'
+        'repetition'
     ];
 
     public function timer()
