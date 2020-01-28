@@ -57,7 +57,6 @@ class TypeController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        // return Response()->json(TypeCollection::make($data), HttpResponse::HTTP_OK);
         return Response()->json(TypeResource::collection($data), HttpResponse::HTTP_OK);
     }
 

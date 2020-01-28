@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Round as RoundResource;
-// use App\Http\Resources\RoundCollection;
 use App\Models\Round;
 use App\Repositories\RoundRepository;
 use Illuminate\Http\Request;
@@ -43,7 +42,7 @@ class RoundController extends Controller
     public function store(Request $request)
     {
         $data = Round::create($request->input());
-        $data = $data->with(['type', 'round'])->find($data->id);
+        $data = $data->find($data->id);
 
         return Response()->json(new RoundResource($data), HttpResponse::HTTP_CREATED);
     }

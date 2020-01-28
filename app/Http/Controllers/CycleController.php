@@ -42,8 +42,7 @@ class CycleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Cycle::create($request->input());
-        $data = $data->with(['type', 'round'])->find($data->id);
+        $data = $this->repository->store($request);
 
         return Response()->json(new CycleResource($data), HttpResponse::HTTP_CREATED);
     }
@@ -60,7 +59,6 @@ class CycleController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        // return Response()->json(CycleCollection::make($data), HttpResponse::HTTP_OK);
         return Response()->json(CycleResource::collection($data), HttpResponse::HTTP_OK);
     }
 

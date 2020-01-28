@@ -59,7 +59,6 @@ class SetController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        // return Response()->json(SetCollection::make($data), HttpResponse::HTTP_OK);
         return Response()->json(SetResource::collection($data), HttpResponse::HTTP_OK);
     }
 
