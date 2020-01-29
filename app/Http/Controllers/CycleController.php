@@ -73,8 +73,6 @@ class CycleController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $request = new Request();
-        $request->input(['fields' => 'type,round']);
         $data = $this->repository->applyParams($request)->find($id);
 
         return Response()->json(new CycleResource($data), HttpResponse::HTTP_OK);

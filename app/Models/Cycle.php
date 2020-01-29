@@ -20,12 +20,12 @@ class Cycle extends Model
 
     public function type()
     {
-        return $this->belongsTo(Type::class, 'type_id');
+        return $this->belongsTo(Type::class, 'type_id', 'id');
     }
 
     public function sound()
     {
-        return $this->belongsTo(Sound::class, 'sound_id');
+        return $this->belongsTo(Sound::class, 'sound_id', 'id');
     }
 
     public function round()
