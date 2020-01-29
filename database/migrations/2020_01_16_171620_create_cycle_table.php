@@ -17,7 +17,7 @@ class CreateCycleTable extends Migration
             $table->increments('id');
             $table->time('duration', 0);
             $table->integer('type_id')->unsigned();
-            $table->integer('sound_id')->unsigned();
+            $table->integer('sound_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

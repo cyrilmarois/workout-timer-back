@@ -23,7 +23,7 @@ class AddCycleFk extends Migration
             $table->foreign('sound_id', 'cycle_sound_id_fdx')
                 ->references('id')
                 ->on('sound')
-                ->onDelete('CASCADE')
+                ->onDelete('SET NULL')
                 ->onUpdate('CASCADE');
         });
     }
