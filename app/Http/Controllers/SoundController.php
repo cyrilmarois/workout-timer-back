@@ -5,19 +5,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Set as SetResource;
-// use App\Http\Resources\SetCollection;
-use App\Models\Set;
-use App\Repositories\SetRepository;
+use App\Http\Resources\Sound as SoundResource;
+use App\Models\Sound;
+use App\Repositories\SoundRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-class SetController extends Controller
+class SoundController extends Controller
 {
 
     /**
-     * @var $repository SetRepository
+     * @var $repository SoundRepository
      */
     protected $repository;
 
@@ -28,7 +27,7 @@ class SetController extends Controller
      *
      * @return void
      */
-    public function __construct(SetRepository $repository)
+    public function __construct(SoundRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -42,9 +41,9 @@ class SetController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Set::create($request->input());
+        $data = Sound::create($request->input());
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_CREATED);
+        return Response()->json(new SoundResource($data), HttpResponse::HTTP_CREATED);
     }
 
 
@@ -59,7 +58,7 @@ class SetController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(SetResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(SoundResource::collection($data), HttpResponse::HTTP_OK);
     }
 
 
@@ -75,7 +74,7 @@ class SetController extends Controller
     {
         $data = $this->repository->applyParams($request)->find($id);
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new SoundResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
@@ -90,7 +89,7 @@ class SetController extends Controller
     {
         $data = $this->repository->find((int)$id)->fill($request->input());
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new SoundResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
@@ -105,6 +104,6 @@ class SetController extends Controller
         $data = $this->repository->find($id);
         $data->delete();
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new SoundResource($data), HttpResponse::HTTP_OK);
     }
 }

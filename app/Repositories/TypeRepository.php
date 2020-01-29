@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
+
 namespace App\Repositories;
 
-use App\Models\Set;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class SetRepository extends BaseRepository
+class TypeRepository extends BaseRepository
 {
     public function model()
     {
-        return Set::class;
+        return Type::class;
     }
 
-    public function applyParams(Request $request)
+    public function applyParams(Request $request): BaseRepository
     {
         if (null !== $request->fields) {
             $explodeFields = explode(',', $request->fields);
@@ -26,5 +27,4 @@ class SetRepository extends BaseRepository
 
         return $this;
     }
-
 }

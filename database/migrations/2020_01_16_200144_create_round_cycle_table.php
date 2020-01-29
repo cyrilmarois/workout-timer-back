@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSetTable extends Migration
+class CreateRoundCycleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateSetTable extends Migration
      */
     public function up()
     {
-        Schema::create('set', function (Blueprint $table) {
+        Schema::create('round_cycle', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('repetition')->unsigned();
+            $table->integer('round_id')->unsigned();
+            $table->integer('cycle_id')->unsigned();
+            $table->integer('order')->unsigned();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateSetTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('set');
+        Schema::dropIfExists('round_cycle');
     }
 }

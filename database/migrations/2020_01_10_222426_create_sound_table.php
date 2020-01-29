@@ -16,7 +16,7 @@ class CreateSoundTable extends Migration
         Schema::create('sound', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 30);
-            $table->binary('content');
+            $table->string('filename', 255);
             $table->timestamps();
         });
     }

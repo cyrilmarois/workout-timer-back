@@ -1,5 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
+
 namespace App\Repositories;
 
 use App\Models\Timer;
@@ -10,15 +13,15 @@ class TimerRepository extends BaseRepository
 {
     public function model()
     {
-        return 'App\\Models\\Timer';
+        return Timer::class;
     }
 
     public function applyParams(Request $request): BaseRepository
     {
         if (null !== $request->fields) {
             $explodeFields = explode(',', $request->fields);
-            if (in_array('set', $explodeFields)) {
-                $this->with(['set']);
+            if (filled($explodeFields)) {
+                $this->with($explodeFields);
             }
         }
 

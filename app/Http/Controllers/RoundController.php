@@ -5,19 +5,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Timer as TimerResource;
-// use App\Http\Resources\TimerCollection;
-use App\Models\Timer;
-use App\Repositories\TimerRepository;
+use App\Http\Resources\Round as RoundResource;
+use App\Models\Round;
+use App\Repositories\RoundRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-class TimerController extends Controller
+class RoundController extends Controller
 {
 
     /**
-     * @var $repository TimerRepository
+     * @var $repository RoundRepository
      */
     protected $repository;
 
@@ -28,7 +27,7 @@ class TimerController extends Controller
      *
      * @return void
      */
-    public function __construct(TimerRepository $repository)
+    public function __construct(RoundRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -42,9 +41,10 @@ class TimerController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Timer::create($request->input());
+        $data = Round::create($request->input());
+        $data = $data->find($data->id);
 
-        return Response()->json(new TimerResource($data), HttpResponse::HTTP_CREATED);
+        return Response()->json(new RoundResource($data), HttpResponse::HTTP_CREATED);
     }
 
 
@@ -59,38 +59,40 @@ class TimerController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(TimerResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(RoundResource::collection($data), HttpResponse::HTTP_OK);
     }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory;
      */
-    public function show($id, Request $request)
+    public function show(Request $request, $id)
     {
         $data = $this->repository->applyParams($request)->find($id);
 
-        return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new RoundResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory;
      */
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
+        dd($request->input());
         $data = $this->repository->find((int)$id)->fill($request->input());
+        $data = $data->with(['type', 'round'])->find($data->id);
 
-        return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new RoundResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
@@ -105,40 +107,40 @@ class TimerController extends Controller
         $data = $this->repository->find($id);
         $data->delete();
 
-        return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new RoundResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
-     * Attach Set to Timer.
+     * Attach Round to Timer.
      *
      * @param  int  $id
      * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory;
      */
-    public function addSet($id, Request $request)
+    public function addCycle($id, Request $request)
     {
         $timer = $this->repository->find($id);
-        $data = $this->repository->addSet($timer, $request);
-        $data = $data->with(['set'])->find($id);
+        $data = $this->repository->addCycle($timer, $request);
+        $data = $data->with(['cycle'])->find($id);
 
-        return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new RoundResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
-     * Remove Set to Timer.
+     * Remove Round to Timer.
      *
      * @param  int  $id
      * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory;
      */
-    public function RemoveSet($id, Request $request)
+    public function RemoveCycle($id, Request $request)
     {
         $timer = $this->repository->find($id);
-        $data = $this->repository->removeSet($timer, $request);
-        $data = $data->with(['set'])->find($id);
+        $data = $this->repository->removeCycle($timer, $request);
+        $data = $data->with(['cycle'])->find($id);
 
-        return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new RoundResource($data), HttpResponse::HTTP_OK);
     }
 }

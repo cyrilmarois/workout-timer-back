@@ -5,19 +5,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Set as SetResource;
-// use App\Http\Resources\SetCollection;
-use App\Models\Set;
-use App\Repositories\SetRepository;
+use App\Http\Resources\Type as TypeResource;
+// use App\Http\Resources\TypeCollection;
+use App\Models\Type;
+use App\Repositories\TypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-class SetController extends Controller
+class TypeController extends Controller
 {
 
     /**
-     * @var $repository SetRepository
+     * @var $repository TypeRepository
      */
     protected $repository;
 
@@ -28,7 +28,7 @@ class SetController extends Controller
      *
      * @return void
      */
-    public function __construct(SetRepository $repository)
+    public function __construct(TypeRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -42,9 +42,7 @@ class SetController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Set::create($request->input());
-
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_CREATED);
+        // Not implemented
     }
 
 
@@ -59,7 +57,7 @@ class SetController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(SetResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(TypeResource::collection($data), HttpResponse::HTTP_OK);
     }
 
 
@@ -75,7 +73,7 @@ class SetController extends Controller
     {
         $data = $this->repository->applyParams($request)->find($id);
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new TypeResource($data), HttpResponse::HTTP_OK);
     }
 
     /**

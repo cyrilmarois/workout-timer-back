@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Type;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,16 +13,20 @@ class TypeTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        DB::table('type')
-            ->insert([
-                'name' => 'high'
-            ],
-            [
-                'name' => 'low'
-            ],
-            [
-                'name' => 'rest'
-            ]);
+        $values = [
+            'high',
+            'low',
+            'rest'
+        ];
+        $data = [];
+        foreach($values as $value) {
+            $now = now()->toDateTimeLocalString();
+            $data[] = [
+                'slug' => $value,
+                'created_at' => $now,
+                'updated_at' => $now
+            ];
+        }
+        Type::insert($data);
     }
 }

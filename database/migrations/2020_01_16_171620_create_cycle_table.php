@@ -13,11 +13,11 @@ class CreateCycleTable extends Migration
      */
     public function up()
     {
-        Schema::create('cycle', function (Blueprint $table) {
+        Schema::create('cycle', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('duration')->unsigned();
+            $table->time('duration', 0);
             $table->integer('type_id')->unsigned();
-            $table->integer('sound_id')->unsigned();
+            $table->integer('sound_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

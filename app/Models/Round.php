@@ -6,24 +6,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Timer extends Model
+class Round extends Model
 {
-    protected $table = 'timer';
+    protected $table = 'round';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'name',
-        'description',
+        'total',
     ];
 
-    public function set()
+    public function cycle()
     {
         return $this->belongsToMany(
-            Set::class,
-            'timer_set',
-            'timer_id',
-            'set_id'
+            Cycle::class,
+            'round_cycle',
+            'round_id',
+            'cycle_id'
         );
     }
 }

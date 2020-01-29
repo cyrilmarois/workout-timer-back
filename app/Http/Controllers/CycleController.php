@@ -5,19 +5,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Set as SetResource;
-// use App\Http\Resources\SetCollection;
-use App\Models\Set;
-use App\Repositories\SetRepository;
+use App\Http\Resources\Cycle as CycleResource;
+// use App\Http\Resources\CycleCollection;
+use App\Models\Cycle;
+use App\Repositories\CycleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-class SetController extends Controller
+class CycleController extends Controller
 {
 
     /**
-     * @var $repository SetRepository
+     * @var $repository CycleRepository
      */
     protected $repository;
 
@@ -28,7 +28,7 @@ class SetController extends Controller
      *
      * @return void
      */
-    public function __construct(SetRepository $repository)
+    public function __construct(CycleRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -42,9 +42,9 @@ class SetController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Set::create($request->input());
+        $data = $this->repository->store($request);
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_CREATED);
+        return Response()->json(new CycleResource($data), HttpResponse::HTTP_CREATED);
     }
 
 
@@ -59,7 +59,7 @@ class SetController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(SetResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(CycleResource::collection($data), HttpResponse::HTTP_OK);
     }
 
 
@@ -75,7 +75,7 @@ class SetController extends Controller
     {
         $data = $this->repository->applyParams($request)->find($id);
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new CycleResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
@@ -88,9 +88,9 @@ class SetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $this->repository->find((int)$id)->fill($request->input());
+        $data = $this->repository->update($request->input(), $id);
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new CycleResource($data), HttpResponse::HTTP_OK);
     }
 
     /**
@@ -105,6 +105,6 @@ class SetController extends Controller
         $data = $this->repository->find($id);
         $data->delete();
 
-        return Response()->json(new SetResource($data), HttpResponse::HTTP_OK);
+        return Response()->json(new CycleResource($data), HttpResponse::HTTP_OK);
     }
 }

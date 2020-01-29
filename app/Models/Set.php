@@ -1,21 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Set extends Model
 {
-    protected $table ='set';
+    protected $table = 'set';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'round'
+        'repetition'
     ];
 
     public function timer()
     {
-        return $this->belongsToMany('App\Models\Timer', 'timer_set', 'set_id', 'timer_id');
+        return $this->belongsToMany(
+            Timer::class,
+            'timer_set',
+            'set_id',
+            'timer_id'
+        );
     }
 }

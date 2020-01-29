@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Timer extends JsonResource
+class Cycle extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +16,11 @@ class Timer extends JsonResource
      */
     public function toArray($request)
     {
-        //return parent::toArray($request);
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'set' => Set::collection($this->whenLoaded('set')),
+            'duration' => $this->duration,
+            'type' => Type::make($this->whenLoaded('type')),
+            'sound' => Sound::make($this->whenLoaded('sound')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Models\Set;
+use App\Models\Round;
 use Illuminate\Http\Request;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class SetRepository extends BaseRepository
+class RoundRepository extends BaseRepository
 {
+
     public function model()
     {
-        return Set::class;
+        return Round::class;
     }
 
     public function applyParams(Request $request)
@@ -26,5 +27,4 @@ class SetRepository extends BaseRepository
 
         return $this;
     }
-
 }
