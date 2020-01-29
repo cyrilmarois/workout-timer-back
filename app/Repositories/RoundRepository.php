@@ -18,7 +18,12 @@ class RoundRepository extends BaseRepository
 
     public function applyParams(Request $request)
     {
-
+        if (null !== $request->fields) {
+            $explodeFields = explode(',', $request->fields);
+            if (filled($explodeFields)) {
+                $this->with($explodeFields);
+            }
+        }
 
         return $this;
     }

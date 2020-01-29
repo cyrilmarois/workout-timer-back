@@ -43,23 +43,47 @@ class CycleRepository extends BaseRepository
         if (null !== $soundId) {
             Sound::findOrFail($soundId);
         }
-        $data = Cycle::create($request->input());
-        if (Arr::get('type_id', $request->input())) {
-            $this->addType($data, $request->input());
+        $data = Cycle::create($input);
+        if (Arr::get('type_id', $input)) {
+            $this->addType($data, $input);
         }
 
-        if (Arr::get('sound_id', $request->input())) {
-            $this->addSound($data, $request->input());
+        if (Arr::get('sound_id', $input)) {
+            $this->addSound($data, $input);
         }
 
-        return $data->with(['type', 'sound'])->find($data->id);
+        return $this->applyParams($request)->find($data->id);
     }
 
-    private function addType(Cycle $cycle, Request $request)
+    public function update(array $input, $id)
+    {
+        $typeId = Arr::get('type_id', $input);
+        if (null !== $typeId) {
+            Type::findOrFail($typeId);
+        }
+
+        $soundId = Arr::get('sound_id', $input);
+        if (null !== $soundId) {
+            Sound::findOrFail($soundId);
+        }
+        $data = $this->find((int)$id)->fill($input);
+        $data->save();
+        if (Arr::get('type_id', $input)) {
+            $this->addType($data, $input);
+        }
+
+        if (Arr::get('sound_id', $input)) {
+            $this->addSound($data, $input);
+        }
+
+        return $this->with(['type', 'sound'])->find($data->id);
+    }
+
+    private function addType(Cycle $cycle, array $input)
     {
         $now = now()->toDateTimeLocalString();
         $cycle->type()->attach(
-            $request->input('type_id'),
+            Arr::get($input, 'type_id'),
             [
                 'created_at' => $now,
                 'updated_at' => $now
@@ -69,11 +93,11 @@ class CycleRepository extends BaseRepository
         return $cycle;
     }
 
-    private function addSound(Cycle $cycle, Request $request)
+    private function addSound(Cycle $cycle, array $input)
     {
         $now = now()->toDateTimeLocalString();
         $cycle->sound()->attach(
-            $request->input('sound_id'),
+            Arr::get($input, 'sound_id'),
             [
                 'created_at' => $now,
                 'updated_at' => $now
