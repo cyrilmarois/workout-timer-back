@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Cycle as CycleResource;
-// use App\Http\Resources\CycleCollection;
 use App\Models\Cycle;
 use App\Repositories\CycleRepository;
 use Illuminate\Http\Request;

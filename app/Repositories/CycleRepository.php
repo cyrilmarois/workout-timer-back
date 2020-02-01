@@ -11,25 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class CycleRepository extends BaseRepository
+class CycleRepository extends XRepository
 {
-
     public function model()
     {
-        return Cycle::class;
+        return parent::model();
     }
 
-    public function applyParams(Request $request)
-    {
-        if (null !== $request->fields) {
-            $explodeFields = explode(',', $request->fields);
-            if (filled($explodeFields)) {
-                $this->with($explodeFields);
-            }
-        }
-
-        return $this;
-    }
 
     public function store(Request $request)
     {
