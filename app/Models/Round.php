@@ -23,6 +23,6 @@ class Round extends Model
             'round_cycle',
             'round_id',
             'cycle_id'
-        );
+        )->withPivot('order');
     }
 }
