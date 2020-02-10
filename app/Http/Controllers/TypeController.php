@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Type as TypeResource;
-// use App\Http\Resources\TypeCollection;
 use App\Models\Type;
 use App\Repositories\TypeRepository;
 use Illuminate\Http\Request;
@@ -57,7 +56,7 @@ class TypeController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(TypeResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(['data' => TypeResource::collection($data)], HttpResponse::HTTP_OK);
     }
 
 

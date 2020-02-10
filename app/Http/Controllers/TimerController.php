@@ -59,7 +59,7 @@ class TimerController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(TimerResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(['data' => TimerResource::collection($data)], HttpResponse::HTTP_OK);
     }
 
 

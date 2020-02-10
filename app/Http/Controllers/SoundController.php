@@ -58,7 +58,7 @@ class SoundController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(SoundResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(['data' => SoundResource::collection($data)], HttpResponse::HTTP_OK);
     }
 
 

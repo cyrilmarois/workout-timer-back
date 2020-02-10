@@ -58,7 +58,7 @@ class RoundController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(RoundResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(['data' => RoundResource::collection($data)], HttpResponse::HTTP_OK);
     }
 
 
