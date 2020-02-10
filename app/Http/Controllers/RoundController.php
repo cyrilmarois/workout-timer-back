@@ -41,8 +41,7 @@ class RoundController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Round::create($request->input());
-        $data = $data->find($data->id);
+        $data = $this->repository->store($request);
 
         return Response()->json(new RoundResource($data), HttpResponse::HTTP_CREATED);
     }
@@ -59,7 +58,7 @@ class RoundController extends Controller
     {
         $data = $this->repository->applyParams($request)->paginate();
 
-        return Response()->json(RoundResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(['data' => RoundResource::collection($data)], HttpResponse::HTTP_OK);
     }
 
 

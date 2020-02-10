@@ -4,27 +4,49 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Models\Cycle;
 use App\Models\Round;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Prettus\Repository\Eloquent\BaseRepository;
+use Illuminate\Support\Facades\Log;
 
-class RoundRepository extends BaseRepository
+class RoundRepository extends XRepository
 {
 
     public function model()
     {
-        return Round::class;
+        return parent::model();
     }
 
-    public function applyParams(Request $request)
+    public function store(Request $request)
     {
-        if (null !== $request->fields) {
-            $explodeFields = explode(',', $request->fields);
-            if (filled($explodeFields)) {
-                $this->with($explodeFields);
+        $input = $request->input();
+        $total = Arr::get($input, 'total');
+        $round = $this->model->create(['total' => $total]);
+        if ($round instanceof $this->model) {
+            $cycleId = Arr::get($input, 'cycle_id');
+            if (filled($cycleId)) {
+                foreach($cycleId as $i => $tmpCycleId) {
+                    $cycle = Cycle::findOrFail($tmpCycleId);
+                    $this->addCycle($round, $cycle, $i);
+                }
             }
         }
 
-        return $this;
+        return $this->with(['cycle.sound', 'cycle.type'])->find($round->id);
     }
+
+    private function addCycle(Round $round, Cycle $cycle, int $orderId)
+    {
+        $now = now()->toDateTimeLocalString();
+        $round->cycle()->attach(
+            $cycle->id,
+            [
+                'order' => $orderId,
+                'created_at' => $now,
+                'updated_at' => $now
+            ]
+        );
+    }
+
 }

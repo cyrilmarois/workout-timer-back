@@ -5,26 +5,11 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Models\Type;
-use Illuminate\Http\Request;
-use Prettus\Repository\Eloquent\BaseRepository;
 
-class TypeRepository extends BaseRepository
+class TypeRepository extends XRepository
 {
     public function model()
     {
-        return Type::class;
-    }
-
-    public function applyParams(Request $request): BaseRepository
-    {
-        if (null !== $request->fields) {
-            $explodeFields = explode(',', $request->fields);
-            if (filled($explodeFields)) {
-                $this->with($explodeFields);
-            }
-        }
-
-        return $this;
+        return parent::model();
     }
 }

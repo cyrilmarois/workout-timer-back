@@ -11,44 +11,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class CycleRepository extends BaseRepository
+class CycleRepository extends XRepository
 {
-
     public function model()
     {
-        return Cycle::class;
+        return parent::model();
     }
 
-    public function applyParams(Request $request)
-    {
-        if (null !== $request->fields) {
-            $explodeFields = explode(',', $request->fields);
-            if (filled($explodeFields)) {
-                $this->with($explodeFields);
-            }
-        }
-
-        return $this;
-    }
 
     public function store(Request $request)
     {
+        $type = null;
+        $sound = null;
         $input = $request->input();
-        $typeId = Arr::get('type_id', $input);
+        $typeId = Arr::get($input, 'type_id');
         if (null !== $typeId) {
-            Type::findOrFail($typeId);
+            $type = Type::findOrFail($typeId);
         }
 
-        $soundId = Arr::get('sound_id', $input);
+        $soundId = Arr::get($input, 'sound_id');
         if (null !== $soundId) {
-            Sound::findOrFail($soundId);
+            $sound = Sound::findOrFail($soundId);
         }
         $data = Cycle::create($input);
-        if (Arr::get('type_id', $input)) {
+        if ($type instanceof Type) {
             $this->addType($data, $input);
         }
 
-        if (Arr::get('sound_id', $input)) {
+        if ($sound instanceof Sound) {
             $this->addSound($data, $input);
         }
 
@@ -57,12 +47,12 @@ class CycleRepository extends BaseRepository
 
     public function update(array $input, $id)
     {
-        $typeId = Arr::get('type_id', $input);
+        $typeId = Arr::get($input, 'type_id');
         if (null !== $typeId) {
             Type::findOrFail($typeId);
         }
 
-        $soundId = Arr::get('sound_id', $input);
+        $soundId = Arr::get($input, 'sound_id');
         if (null !== $soundId) {
             Sound::findOrFail($soundId);
         }
