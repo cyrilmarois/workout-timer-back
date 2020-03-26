@@ -20,7 +20,7 @@ class Type extends JsonResource
         return [
             'id' => $this->id,
             'slug' => $this->slug,
-            'cycle' => Cycle::make($this->whenLoaded('cycle')),
+            'cycle' => Cycle::collection($this->whenLoaded('cycle')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];
