@@ -57,7 +57,7 @@ class TimerController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->repository->applyParams($request)->paginate();
+        $data = $this->repository->applyParams($request->all())->paginate();
 
         return Response()->json(['data' => TimerResource::collection($data)], HttpResponse::HTTP_OK);
     }
@@ -73,7 +73,7 @@ class TimerController extends Controller
      */
     public function show($id, Request $request)
     {
-        $data = $this->repository->applyParams($request)->find($id);
+        $data = $this->repository->applyParams($request->all())->find($id);
 
         return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
     }

@@ -56,7 +56,7 @@ class RoundController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->repository->applyParams($request)->paginate();
+        $data = $this->repository->applyParams($request->all())->paginate();
 
         return Response()->json(['data' => RoundResource::collection($data)], HttpResponse::HTTP_OK);
     }
@@ -72,7 +72,7 @@ class RoundController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $data = $this->repository->applyParams($request)->find($id);
+        $data = $this->repository->applyParams($request->all())->find($id);
 
         return Response()->json(new RoundResource($data), HttpResponse::HTTP_OK);
     }

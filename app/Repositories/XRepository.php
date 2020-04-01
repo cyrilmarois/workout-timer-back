@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -17,10 +17,11 @@ abstract class XRepository extends BaseRepository
 
     }
 
-    public function applyParams(Request $request)
+    public function applyParams(array $params)
     {
-        if (null !== $request->fields) {
-            $explodeFields = explode(',', $request->fields);
+        $fields = Arr::get($params, 'fields');
+        if (!empty($fields)) {
+            $explodeFields = explode(',', $fields);
             if (filled($explodeFields)) {
                 $this->with($explodeFields);
             }

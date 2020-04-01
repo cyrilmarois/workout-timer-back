@@ -54,7 +54,7 @@ class TypeController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->repository->applyParams($request)->paginate();
+        $data = $this->repository->applyParams($request->all())->paginate();
 
         return Response()->json(['data' => TypeResource::collection($data)], HttpResponse::HTTP_OK);
     }
@@ -70,7 +70,7 @@ class TypeController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $data = $this->repository->applyParams($request)->find($id);
+        $data = $this->repository->applyParams($request->all())->find($id);
 
         return Response()->json(new TypeResource($data), HttpResponse::HTTP_OK);
     }
