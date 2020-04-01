@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Timer as TimerResource;
-// use App\Http\Resources\TimerCollection;
+use App\Models\Set;
 use App\Models\Timer;
 use App\Repositories\TimerRepository;
 use Illuminate\Http\Request;
@@ -42,9 +42,9 @@ class TimerController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Timer::create($request->input());
+        $data = Timer::create($request->all());
 
-        return Response()->json(new TimerResource($data), HttpResponse::HTTP_CREATED);
+        return Response()->json($data, HttpResponse::HTTP_CREATED);
     }
 
 
@@ -119,7 +119,7 @@ class TimerController extends Controller
     public function addSet($id, Request $request)
     {
         $timer = $this->repository->find($id);
-        $data = $this->repository->addSet($timer, $request);
+        $data = $this->repository->addSet($timer, $request->all());
         $data = $data->with(['set'])->find($id);
 
         return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
@@ -136,7 +136,7 @@ class TimerController extends Controller
     public function RemoveSet($id, Request $request)
     {
         $timer = $this->repository->find($id);
-        $data = $this->repository->removeSet($timer, $request);
+        $data = $this->repository->removeSet($timer, $request->all());
         $data = $data->with(['set'])->find($id);
 
         return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);

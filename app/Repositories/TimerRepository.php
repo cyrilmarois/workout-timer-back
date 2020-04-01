@@ -7,6 +7,7 @@ namespace App\Repositories;
 
 use App\Models\Timer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class TimerRepository extends XRepository
 {
@@ -15,11 +16,11 @@ class TimerRepository extends XRepository
         return parent::model();
     }
 
-    public function addSet(Timer $timer, Request $request)
+    public function addSet(Timer $timer, array $ids)
     {
         $now = now()->toDateTimeLocalString();
         $timer->set()->attach(
-            $request->ids,
+            $ids,
             [
                 'created_at' => $now,
                 'updated_at' => $now
@@ -29,11 +30,11 @@ class TimerRepository extends XRepository
         return $timer;
     }
 
-    public function removeSet(Timer $timer, Request $request)
+    public function removeSet(Timer $timer, array $ids)
     {
         $now = now()->toDateTimeLocalString();
         $timer->set()->detach(
-            $request->ids,
+            $ids,
             [
                 'created_at' => $now,
                 'updated_at' => $now
