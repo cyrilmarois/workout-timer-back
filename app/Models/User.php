@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function timer()
+    {
+        return $this->belongsToMany(
+            Timer::class,
+            'user_timer',
+            'user_id',
+            'timer_id'
+        );
+    }
 }

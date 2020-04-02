@@ -26,4 +26,14 @@ class Timer extends Model
             'set_id'
         );
     }
+
+    public function user()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'user_timer',
+            'timer_id',
+            'user_id'
+        );
+    }
 }
