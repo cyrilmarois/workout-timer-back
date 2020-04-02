@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::middleware('auth:api')->prefix('user')->group(
+Route::middleware('auth:api')->prefix('users')->group(
     function () {
         Route::post('/', 'UserController@store');
         Route::get('/', 'UserController@index');
@@ -24,19 +24,19 @@ Route::middleware('auth:api')->prefix('user')->group(
     }
 );
 
-Route::prefix('timer')->group(
+Route::prefix('timers')->group(
     function () {
         Route::post('/', 'TimerController@store');
         Route::get('/', 'TimerController@index');
         Route::get('/{id}', 'TimerController@show');
         Route::patch('/{id}', 'TimerController@update');
         Route::delete('/{id}', 'TimerController@destroy');
-        Route::patch('/{id}/set', 'TimerController@addSet');
-        Route::delete('/{id}/set/{setId}', 'TimerController@removeSet');
+        Route::patch('/{id}/sets', 'TimerController@addSet');
+        Route::delete('/{id}/sets/{setId}', 'TimerController@removeSet');
     }
 );
 
-Route::prefix('set')->group(
+Route::prefix('sets')->group(
     function () {
         Route::post('/', 'SetController@store');
         Route::get('/', 'SetController@index');
@@ -46,14 +46,14 @@ Route::prefix('set')->group(
     }
 );
 
-Route::prefix('type')->group(
+Route::prefix('types')->group(
     function () {
         Route::get('/', 'TypeController@index');
         Route::get('/{id}', 'TypeController@show');
     }
 );
 
-Route::prefix('sound')->group(
+Route::prefix('sounds')->group(
     function () {
         Route::post('/', 'SoundController@store');
         Route::get('/', 'SoundController@index');
@@ -63,19 +63,19 @@ Route::prefix('sound')->group(
     }
 );
 
-Route::prefix('round')->group(
+Route::prefix('rounds')->group(
     function () {
         Route::post('/', 'RoundController@store');
         Route::get('/', 'RoundController@index');
         Route::get('/{id}', 'RoundController@show');
         Route::patch('/{id}', 'RoundController@update');
         Route::delete('/{id}', 'RoundController@destroy');
-        Route::patch('/{id}/cycle', 'RoundController@addCycle');
-        Route::delete('/{id}/cycle/{cycleId}', 'RoundController@removeCyle');
+        Route::patch('/{id}/cycles', 'RoundController@addCycle');
+        Route::delete('/{id}/cycles/{cycleId}', 'RoundController@removeCyle');
     }
 );
 
-Route::prefix('cycle')->group(
+Route::prefix('cycles')->group(
     function () {
         Route::post('/', 'CycleController@store');
         Route::get('/', 'CycleController@index');

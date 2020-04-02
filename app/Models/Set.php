@@ -25,4 +25,14 @@ class Set extends Model
             'timer_id'
         );
     }
+
+    public function round()
+    {
+        return $this->belongsToMany(
+            Round::class,
+            'set_round',
+            'set_id',
+            'round_id'
+        );
+    }
 }

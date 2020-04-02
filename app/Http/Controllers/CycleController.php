@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Cycle as CycleResource;
-// use App\Http\Resources\CycleCollection;
 use App\Models\Cycle;
 use App\Repositories\CycleRepository;
 use Illuminate\Http\Request;
@@ -57,9 +56,9 @@ class CycleController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->repository->applyParams($request)->paginate();
+        $data = $this->repository->applyParams($request->all())->paginate();
 
-        return Response()->json(CycleResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(['data' => CycleResource::collection($data)], HttpResponse::HTTP_OK);
     }
 
 
@@ -73,7 +72,7 @@ class CycleController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $data = $this->repository->applyParams($request)->find($id);
+        $data = $this->repository->applyParams($request->all())->find($id);
 
         return Response()->json(new CycleResource($data), HttpResponse::HTTP_OK);
     }

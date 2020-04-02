@@ -23,6 +23,16 @@ class Round extends Model
             'round_cycle',
             'round_id',
             'cycle_id'
+        )->withPivot('order');
+    }
+
+    public function set()
+    {
+        return $this->belongsToMany(
+            Set::class,
+            'set_round',
+            'round_id',
+            'set_id'
         );
     }
 }

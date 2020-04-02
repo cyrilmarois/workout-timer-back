@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimerTable extends Migration
+class CreateSetRoundTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTimerTable extends Migration
      */
     public function up()
     {
-        Schema::create('timer', function (Blueprint $table) {
+        Schema::create('set_round', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50);
-            $table->text('description')->nullable();
+            $table->integer('set_id')->unsigned();
+            $table->integer('round_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateTimerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('timer');
+        Schema::dropIfExists('set_round');
     }
 }

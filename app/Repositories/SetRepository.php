@@ -4,27 +4,16 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Models\Set;
-use Illuminate\Http\Request;
-use Prettus\Repository\Eloquent\BaseRepository;
-
-class SetRepository extends BaseRepository
+class SetRepository extends XRepository
 {
     public function model()
     {
-        return Set::class;
+        return parent::model();
     }
 
-    public function applyParams(Request $request)
+    public function create(array $attributes)
     {
-        if (null !== $request->fields) {
-            $explodeFields = explode(',', $request->fields);
-            if (filled($explodeFields)) {
-                $this->with($explodeFields);
-            }
-        }
-
-        return $this;
+        return $this->model()::create($attributes);
     }
 
 }

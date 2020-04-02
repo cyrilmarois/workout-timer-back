@@ -6,46 +6,77 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Timer;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Prettus\Repository\Eloquent\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 
-class TimerRepository extends BaseRepository
+class TimerRepository extends XRepository
 {
     public function model()
     {
-        return Timer::class;
+        return parent::model();
     }
 
-    public function applyParams(Request $request): BaseRepository
+    public function create(array $attributes)
     {
-        if (null !== $request->fields) {
-            $explodeFields = explode(',', $request->fields);
-            if (filled($explodeFields)) {
-                $this->with($explodeFields);
-            }
+        $timer = $this->model()::create($attributes);
+        if (false !== $timer) {
+            $this->addUser($timer, [Auth::user()->id]);
         }
-
-        return $this;
     }
 
-    public function addSet(Timer $timer, Request $request)
+    public function addSet(Timer $timer, array $ids)
     {
         $now = now()->toDateTimeLocalString();
-        $timer->set()->attach($request->ids,[
-            'created_at' => $now,
-            'updated_at' => $now
-        ]);
+        $timer->set()->attach(
+            $ids,
+            [
+                'created_at' => $now,
+                'updated_at' => $now
+            ]
+        );
 
         return $timer;
     }
 
-    public function removeSet(Timer $timer, Request $request)
+    public function removeSet(Timer $timer, array $ids)
     {
         $now = now()->toDateTimeLocalString();
-        $timer->set()->detach($request->ids,[
-            'created_at' => $now,
-            'updated_at' => $now
-        ]);
+        $timer->set()->detach(
+            $ids,
+            [
+                'created_at' => $now,
+                'updated_at' => $now
+            ]
+        );
+
+        return $timer;
+    }
+
+    public function addUser(Timer $timer, array $ids)
+    {
+        $now = now()->toDateTimeLocalString();
+        $timer->user()->attach(
+            $ids,
+            [
+                'created_at' => $now,
+                'updated_at' => $now
+            ]
+        );
+
+        return $timer;
+    }
+
+    public function removeUser(Timer $timer, array $ids)
+    {
+        $now = now()->toDateTimeLocalString();
+        $timer->user()->detach(
+            $ids,
+            [
+                'created_at' => $now,
+                'updated_at' => $now
+            ]
+        );
 
         return $timer;
     }

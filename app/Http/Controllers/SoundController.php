@@ -56,9 +56,9 @@ class SoundController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->repository->applyParams($request)->paginate();
+        $data = $this->repository->applyParams($request->all())->paginate();
 
-        return Response()->json(SoundResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(['data' => SoundResource::collection($data)], HttpResponse::HTTP_OK);
     }
 
 
@@ -72,7 +72,7 @@ class SoundController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $data = $this->repository->applyParams($request)->find($id);
+        $data = $this->repository->applyParams($request->all())->find($id);
 
         return Response()->json(new SoundResource($data), HttpResponse::HTTP_OK);
     }

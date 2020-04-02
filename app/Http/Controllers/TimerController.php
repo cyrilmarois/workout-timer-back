@@ -6,11 +6,17 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Timer as TimerResource;
-// use App\Http\Resources\TimerCollection;
+use App\Models\Set;
 use App\Models\Timer;
+use App\Repositories\CycleRepository;
+use App\Repositories\RoundRepository;
+use App\Repositories\SetRepository;
+use App\Repositories\SoundRepository;
 use App\Repositories\TimerRepository;
+use App\Repositories\TypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class TimerController extends Controller
@@ -22,15 +28,55 @@ class TimerController extends Controller
     protected $repository;
 
     /**
+     * @var $cycleRepository CycleRepository
+     */
+    protected $cycleRepository;
+
+    /**
+     * @var $roundRepository RoundRepository
+     */
+    protected $roundRepository;
+
+    /**
+     * @var $setRepository SetRepository
+     */
+    protected $setRepository;
+
+    /**
+     * @var $soundRepository SoundRepository
+     */
+    protected $soundRepository;
+
+    /**
+     * @var $typeRepository TypeRepository
+     */
+    protected $typeRepository;
+
+    /**
      * __construct
      *
      * @param  mixed $repository
+     * @param  mixed $cycleRepository
+     * @param  mixed $roundRepository
+     * @param  mixed $setRepository
+     * @param  mixed $soundRepository
+     * @param  mixed $typeRepository
      *
      * @return void
      */
-    public function __construct(TimerRepository $repository)
+    public function __construct(TimerRepository $repository,
+                                CycleRepository $cycleRepository,
+                                RoundRepository $roundRepository,
+                                SetRepository $setRepository,
+                                SoundRepository $soundRepository,
+                                TypeRepository $typeRepository)
     {
         $this->repository = $repository;
+        $this->cycleRepository = $cycleRepository;
+        $this->roundRepository = $roundRepository;
+        $this->setRepository = $setRepository;
+        $this->soundRepository = $soundRepository;
+        $this->typeRepository = $typeRepository;
     }
 
     /**
@@ -42,9 +88,29 @@ class TimerController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Timer::create($request->input());
+        // dd($request->all());
+        $data = null;
+        DB::beginTransaction();
+        $timer = $this->repository->create($request->all());
+        if ($timer instanceof Timer) {
+            $set = $this->setRepository->create($request->all());
+            if ($set instanceof Set) {
+                $this->repository->addSet($timer, [$set->id]);
+                $cycle = $this->cycleRepository->store($request);
+            }
 
-        return Response()->json(new TimerResource($data), HttpResponse::HTTP_CREATED);
+            DB::commit();
+            $data = $this->repository->find($timer->id)->with([
+                'cycle',
+                'round',
+                'set',
+                'sound',
+                'type'
+            ]);
+            $data = new TimerResource($data);
+        }
+
+        return Response()->json($data, HttpResponse::HTTP_CREATED);
     }
 
 
@@ -57,9 +123,9 @@ class TimerController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->repository->applyParams($request)->paginate();
+        $data = $this->repository->applyParams($request->all())->paginate();
 
-        return Response()->json(TimerResource::collection($data), HttpResponse::HTTP_OK);
+        return Response()->json(['data' => TimerResource::collection($data)], HttpResponse::HTTP_OK);
     }
 
 
@@ -73,7 +139,7 @@ class TimerController extends Controller
      */
     public function show($id, Request $request)
     {
-        $data = $this->repository->applyParams($request)->find($id);
+        $data = $this->repository->applyParams($request->all())->find($id);
 
         return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
     }
@@ -119,7 +185,7 @@ class TimerController extends Controller
     public function addSet($id, Request $request)
     {
         $timer = $this->repository->find($id);
-        $data = $this->repository->addSet($timer, $request);
+        $data = $this->repository->addSet($timer, $request->all());
         $data = $data->with(['set'])->find($id);
 
         return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
@@ -136,7 +202,7 @@ class TimerController extends Controller
     public function RemoveSet($id, Request $request)
     {
         $timer = $this->repository->find($id);
-        $data = $this->repository->removeSet($timer, $request);
+        $data = $this->repository->removeSet($timer, $request->all());
         $data = $data->with(['set'])->find($id);
 
         return Response()->json(new TimerResource($data), HttpResponse::HTTP_OK);
