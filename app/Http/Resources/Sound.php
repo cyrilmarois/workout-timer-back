@@ -21,7 +21,7 @@ class Sound extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'filename' => $this->filename,
-            'cycle' => Cycle::collection($this->whenLoaded('cycle')),
+            'cycle' => Cycle::make($this->whenLoaded('cycle')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

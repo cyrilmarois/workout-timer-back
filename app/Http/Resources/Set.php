@@ -20,6 +20,7 @@ class Set extends JsonResource
             'id' => $this->id,
             'repetition' => $this->repetition,
             'timer' => Timer::collection($this->whenLoaded('timer')),
+            'round' => Round::collection($this->whenLoaded('round')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];
