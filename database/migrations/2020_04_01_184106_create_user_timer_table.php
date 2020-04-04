@@ -28,6 +28,6 @@ class CreateUserTimerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_timer');
+        Schema::dropIfExists('user_timer');
     }
 }
