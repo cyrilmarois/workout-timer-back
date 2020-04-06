@@ -21,12 +21,31 @@ abstract class XRepository extends BaseRepository
     {
         $fields = Arr::get($params, 'fields');
         if (!empty($fields)) {
-            $explodeFields = explode(',', $fields);
-            if (filled($explodeFields)) {
-                $this->with($explodeFields);
+            $withRelation = $this->overrideRelation($fields);
+            if (filled($withRelation)) {
+                $this->with($withRelation);
             }
         }
 
         return $this;
+    }
+
+    abstract function mapRelation();
+
+    private function overrideRelation($fields): array
+    {
+        $wihRelation = [];
+        $explodeFields = explode(',', $fields);
+        $relations = (array)$this->mapRelation();
+        foreach ($relations as $key => $relation) {
+            foreach ($explodeFields as $explodeField) {
+                if ($key === $explodeField) {
+                    $wihRelation[] = $relation;
+                    break;
+                }
+            }
+        }
+
+        return $wihRelation;
     }
 }
