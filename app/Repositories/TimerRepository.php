@@ -5,7 +5,9 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Models\Set;
 use App\Models\Timer;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +19,30 @@ class TimerRepository extends XRepository
         return parent::model();
     }
 
+    public function store(array $attributes, $injectorRepositoryService): ?Model
+    {
+        $timer = $this->create($attributes);
+        if ($timer instanceof Timer) {
+            $set = $injectorRepositoryService->getRepository('set')
+                ->create($attributes);
+            if ($set instanceof Set) {
+                $this->addSet($timer, [$set->id]);
+                $injectorRepositoryService->getRepository('cycle')
+                    ->store($attributes, $set->round()->first());
+            }
+        }
+
+        return $timer;
+    }
+
     public function create(array $attributes)
     {
         $timer = $this->model()::create($attributes);
-        if (false !== $timer) {
-            $this->addUser($timer, [Auth::user()->id]);
-        }
+        // if (false !== $timer) {
+        //     $this->addUser($timer, [Auth::user()->id]);
+        // }
+
+        return $timer;
     }
 
     public function addSet(Timer $timer, array $ids)

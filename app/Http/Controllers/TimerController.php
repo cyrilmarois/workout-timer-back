@@ -9,6 +9,7 @@ use App\Http\Resources\Timer as TimerResource;
 use App\Models\Set;
 use App\Models\Timer;
 use App\Repositories\CycleRepository;
+use App\Repositories\InjectorRepositoryService;
 use App\Repositories\RoundRepository;
 use App\Repositories\SetRepository;
 use App\Repositories\SoundRepository;
@@ -28,55 +29,23 @@ class TimerController extends Controller
     protected $repository;
 
     /**
-     * @var $cycleRepository CycleRepository
+     * @var $injectorRepositoryService InjectorRepositoryService
      */
-    protected $cycleRepository;
-
-    /**
-     * @var $roundRepository RoundRepository
-     */
-    protected $roundRepository;
-
-    /**
-     * @var $setRepository SetRepository
-     */
-    protected $setRepository;
-
-    /**
-     * @var $soundRepository SoundRepository
-     */
-    protected $soundRepository;
-
-    /**
-     * @var $typeRepository TypeRepository
-     */
-    protected $typeRepository;
+    protected $injectorRepositoryService;
 
     /**
      * __construct
      *
      * @param  mixed $repository
-     * @param  mixed $cycleRepository
-     * @param  mixed $roundRepository
-     * @param  mixed $setRepository
-     * @param  mixed $soundRepository
-     * @param  mixed $typeRepository
+     * @param  mixed $injectorRepositoryService
      *
      * @return void
      */
     public function __construct(TimerRepository $repository,
-                                CycleRepository $cycleRepository,
-                                RoundRepository $roundRepository,
-                                SetRepository $setRepository,
-                                SoundRepository $soundRepository,
-                                TypeRepository $typeRepository)
+                                InjectorRepositoryService $injectorRepositoryService)
     {
         $this->repository = $repository;
-        $this->cycleRepository = $cycleRepository;
-        $this->roundRepository = $roundRepository;
-        $this->setRepository = $setRepository;
-        $this->soundRepository = $soundRepository;
-        $this->typeRepository = $typeRepository;
+        $this->injectorRepositoryService = $injectorRepositoryService;
     }
 
     /**
@@ -90,23 +59,20 @@ class TimerController extends Controller
     {
         // dd($request->all());
         $data = null;
-        DB::beginTransaction();
-        $timer = $this->repository->create($request->all());
+        // DB::beginTransaction();
+        $timer = $this->repository->store(
+            $request->all(),
+            $this->injectorRepositoryService
+        );
         if ($timer instanceof Timer) {
-            $set = $this->setRepository->create($request->all());
-            if ($set instanceof Set) {
-                $this->repository->addSet($timer, [$set->id]);
-                $cycle = $this->cycleRepository->store($request);
-            }
-
-            DB::commit();
-            $data = $this->repository->find($timer->id)->with([
-                'cycle',
-                'round',
+            // DB::commit();
+            $data = $this->repository->with([
                 'set',
+                'round',
+                'cycle',
                 'sound',
                 'type'
-            ]);
+            ])->find($timer->id);
             $data = new TimerResource($data);
         }
 
