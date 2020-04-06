@@ -55,4 +55,15 @@ class SetRepository extends XRepository
 
         return $set;
     }
+
+    function mapRelation()
+    {
+        return [
+            'timer' => 'timer',
+            'round' => 'round',
+            'cycle' => 'round.cycle',
+            'sound' => 'round.cycle.sound',
+            'type' => 'set.round.cycle.type',
+        ];
+    }
 }

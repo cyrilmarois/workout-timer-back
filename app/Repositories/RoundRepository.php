@@ -49,4 +49,15 @@ class RoundRepository extends XRepository
         );
     }
 
+    function mapRelation()
+    {
+        return [
+            'timer' => 'set.timer',
+            'set' => 'round.set',
+            'cycle' => 'cycle',
+            'sound' => 'cycle.sound',
+            'type' => 'cycle.type',
+        ];
+    }
+
 }

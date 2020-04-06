@@ -12,4 +12,15 @@ class TypeRepository extends XRepository
     {
         return parent::model();
     }
+
+    function mapRelation(): array
+    {
+        return [
+            'cycle' => 'cycle',
+            'round' => 'cycle.round',
+            'sound' => 'cycle.sound',
+            'set' => 'cycle.round.set',
+            'timer' => 'cycle.round.set.timer',
+        ];
+    }
 }

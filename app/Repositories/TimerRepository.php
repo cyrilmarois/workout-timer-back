@@ -100,4 +100,15 @@ class TimerRepository extends XRepository
 
         return $timer;
     }
+
+    function mapRelation()
+    {
+        return [
+            'set' => 'set',
+            'round' => 'set.round',
+            'cycle' => 'set.round.cycle',
+            'sound' => 'set.round.cycle.sound',
+            'type' => 'set.round.cycle.type',
+        ];
+    }
 }

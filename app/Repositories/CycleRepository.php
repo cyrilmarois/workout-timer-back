@@ -103,4 +103,15 @@ class CycleRepository extends XRepository
 
         return $cycle;
     }
+
+    function mapRelation()
+    {
+        return [
+            'timer' => 'round.set.timer',
+            'set' => 'round.set',
+            'round' => 'round',
+            'sound' => 'sound',
+            'type' => 'type',
+        ];
+    }
 }

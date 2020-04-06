@@ -12,4 +12,15 @@ class SoundRepository extends XRepository
     {
         return parent::model();
     }
+
+    function mapRelation()
+    {
+        return [
+            'set' => 'cycle.round.set',
+            'round' => 'cycle.round',
+            'cycle' => 'cycle',
+            'type' => 'cycle.type',
+            'timer' => 'cycle.round.set.timer'
+        ];
+    }
 }
