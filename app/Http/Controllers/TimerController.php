@@ -66,12 +66,8 @@ class TimerController extends Controller
         );
         if ($timer instanceof Timer) {
             // DB::commit();
-            $data = $this->repository->with([
-                'set',
-                'round',
-                'cycle',
-                'sound',
-                'type'
+            $data = $this->repository->applyParams([
+                'fields' => 'set,round,cycle,sound,type'
             ])->find($timer->id);
             $data = new TimerResource($data);
         }

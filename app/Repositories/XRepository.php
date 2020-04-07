@@ -36,7 +36,7 @@ abstract class XRepository extends BaseRepository
     {
         $wihRelation = [];
         $explodeFields = explode(',', $fields);
-        $relations = (array)$this->mapRelation();
+        $relations = $this->mapRelation();
         foreach ($relations as $key => $relation) {
             foreach ($explodeFields as $explodeField) {
                 if ($key === $explodeField) {
