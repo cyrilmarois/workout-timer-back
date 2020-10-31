@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Console\Commands;
@@ -39,10 +40,10 @@ class Hodor extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): int
     {
         //dd(Sound::with('round')->firstOrFail()->toArray());
         dd(Cycle::with('sound')->firstOrFail()->toArray());
-
+        return 0;
     }
 }

@@ -2,7 +2,6 @@
 
 use App\Models\Type;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TypeTableSeeder extends Seeder
 {
@@ -19,12 +18,11 @@ class TypeTableSeeder extends Seeder
             'rest'
         ];
         $data = [];
-        foreach($values as $value) {
-            $now = now()->toDateTimeLocalString();
+        foreach ($values as $value) {
             $data[] = [
                 'slug' => $value,
-                'created_at' => $now,
-                'updated_at' => $now
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }
         Type::insert($data);
